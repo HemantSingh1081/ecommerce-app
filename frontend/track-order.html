@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Order - ShopHub</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo"><i class="fas fa-store"></i> ShopHub</div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="cart.html">Cart</a>
+                <a href="track-order.html">Track Order</a>
+                <div id="authSection">
+                    <a href="login.html">Login</a>
+                    <a href="register.html">Register</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="track-order-container">
+        <h1><i class="fas fa-map-marker-alt"></i> Track Your Order</h1>
+        <div class="track-input">
+            <input type="text" id="orderId" placeholder="Enter Order ID">
+            <button onclick="trackOrder()">Track Order</button>
+        </div>
+        <div id="orderDetails" class="order-details"></div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        async function trackOrder() {
+            const orderId = document.getElementById('orderId').value;
+            const token = localStorage.getItem('token');
+            
+            if (!token) {
+                alert('Please login to track orders');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            try {
+                const response = await fetch(`http://localhost:5000/api/orders/${orderId}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const order = await response.json();
+                
+                const statusSteps = ['pending', 'processing', 'shipped', 'delivered'];
+                const currentStep = statusSteps.indexOf(order.status);
+                
+                document.getElementById('orderDetails').innerHTML = `
+                    <div class="order-card">
+                        <h3>Order #${order._id}</h3>
+                        <p>Status: <span class="status ${order.status}">${order.status.toUpperCase()}</span></p>
+                        <div class="tracking-steps">
+                            ${statusSteps.map((step, index) => `
+                                <div class="step ${index <= currentStep ? 'completed' : ''}">
+                                    <div class="step-icon">${index <= currentStep ? '✓' : index + 1}</div>
+                                    <div class="step-name">${step.toUpperCase()}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <h4>Items:</h4>
+                        <ul>
+                            ${order.items.map(item => `<li>${item.name} x ${item.quantity} - $${item.price}</li>`).join('')}
+                        </ul>
+                        <p><strong>Total: $${order.totalAmount}</strong></p>
+                    </div>
+                `;
+            } catch (error) {
+                document.getElementById('orderDetails').innerHTML = '<p class="error">Order not found</p>';
+            }
+        }
+    </script>
+    <style>
+        .track-order-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .track-order-container h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .track-input {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        .track-input input {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+        }
+        .track-input button {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .order-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        .tracking-steps {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+        }
+        .step {
+            text-align: center;
+            flex: 1;
+        }
+        .step-icon {
+            width: 40px;
+            height: 40px;
+            background: #e0e0e0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+        }
+        .step.completed .step-icon {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+        .status {
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .status.pending { background: #ffc107; color: #000; }
+        .status.processing { background: #17a2b8; color: white; }
+        .status.shipped { background: #007bff; color: white; }
+        .status.delivered { background: #28a745; color: white; }
+    </style>
+</body>
+</html>

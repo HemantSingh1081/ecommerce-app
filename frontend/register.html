@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - ShopHub</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">🛍️ ShopHub</a>
+            <div class="nav-icons">
+                <a href="index.html"><i class="fas fa-home"></i><span>Home</span></a>
+                <a href="cart.html"><i class="fas fa-shopping-bag"></i><span>Cart</span></a>
+                <a href="login.html"><i class="fas fa-user"></i><span>Login</span></a>
+                <a href="register.html"><span>Register</span></a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="auth-wrapper">
+        <div class="auth-card">
+            <h2>Create Account</h2>
+            <p class="subtitle">Join us for exclusive deals</p>
+            <form id="registerForm">
+                <div class="input-group"><input type="text" id="name" placeholder="Full name" required></div>
+                <div class="input-group"><input type="email" id="email" placeholder="Email address" required></div>
+                <div class="input-group"><input type="password" id="password" placeholder="Password" required></div>
+                <button type="submit">Register</button>
+                <div id="message" class="error-msg"></div>
+            </form>
+            <div class="auth-footer">Already have an account? <a href="login.html">Sign in</a></div>
+        </div>
+    </div>
+    <script src="js/auth.js"></script>
+</body>
+</html>

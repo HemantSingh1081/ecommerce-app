@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopHub - Home</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">🛍️ ShopHub</a>
+            
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Search products...">
+            </div>
+            
+            <div class="nav-icons">
+                <a href="index.html"><i class="fas fa-home"></i><span>Home</span></a>
+                <a href="javascript:void(0)" onclick="showWishlist()"><i class="far fa-heart"></i><span>Wishlist (<span id="wishlistCount">0</span>)</span></a>
+                <a href="cart.html"><i class="fas fa-shopping-bag"></i><span>Cart (<span id="cartCount">0</span>)</span></a>
+                <div id="authSection">
+                    <a href="login.html"><i class="fas fa-user"></i><span>Login</span></a>
+                </div>
+                <div id="userSection" style="display:none">
+                    <span id="userNameDisplay"></span>
+                    <button onclick="logoutUser()" class="logout-btn">Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <div class="hero-content">
+            <h2>Summer Sale!</h2>
+            <p>Up to 50% off on selected items</p>
+            <button onclick="shopNow()">Shop Now →</button>
+        </div>
+    </div>
+
+    <div class="categories-wrap">
+        <div class="container">
+            <h3>Shop by Category</h3>
+            <div class="categories-list">
+                <div class="category" onclick="filterByCategory('Electronics')"><i class="fas fa-mobile-alt"></i><span>Electronics</span></div>
+                <div class="category" onclick="filterByCategory('Audio')"><i class="fas fa-headphones"></i><span>Audio</span></div>
+                <div class="category" onclick="filterByCategory('Footwear')"><i class="fas fa-shoe-prints"></i><span>Footwear</span></div>
+                <div class="category" onclick="filterByCategory('Accessories')"><i class="fas fa-watch"></i><span>Accessories</span></div>
+                <div class="category" onclick="filterByCategory('Gaming')"><i class="fas fa-gamepad"></i><span>Gaming</span></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="products-wrap">
+        <div class="container">
+            <h3>Featured Products</h3>
+            <div class="products-list" id="productsContainer">Loading...</div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div><h4>ShopHub</h4><p>Your trusted shopping partner</p></div>
+                <div><h4>Quick Links</h4><a href="index.html">Home</a><a href="cart.html">Cart</a></div>
+                <div><h4>Support</h4><a href="#">FAQ</a><a href="#">Shipping</a></div>
+            </div>
+            <div class="footer-bottom">© 2024 ShopHub. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <div id="wishlistModal" class="modal">
+        <div class="modal-content"><span class="close" onclick="closeWishlist()">&times;</span><h3>My Wishlist</h3><div id="wishlistItems"></div></div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
